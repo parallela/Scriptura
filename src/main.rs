@@ -1,5 +1,7 @@
 #![allow(non_snake_case)]
 
+mod layouts;
+
 use dioxus::desktop::Config;
 use dioxus::prelude::*;
 use dioxus_logger::tracing::{Level, info};
@@ -16,7 +18,11 @@ fn main() {
     dioxus_logger::init(Level::INFO).expect("failed to init logger");
     info!("starting app");
 
-    let cfg: Config = dioxus::desktop::Config::new().with_custom_head(r#"<link rel="stylesheet" href="tailwind.css">"#.to_string());
+    let cfg: Config = Config::new()
+        .with_custom_head(r#"<link rel="stylesheet" href="tailwind.css">"#.to_string())
+        .with_custom_index(include_str!("static/index.html").to_string())
+        .with_background_color((23, 36, 84, 1));
+
     LaunchBuilder::desktop().with_cfg(cfg).launch(App);
 }
 
@@ -31,11 +37,11 @@ fn App() -> Element {
 #[component]
 fn Home() -> Element {
     rsx! {
-        div {
-            p {
-                "Hello world"
-            }
-        }
+            div {
+                    p {
+                        "Hello world"
+                    }
+                }
     }
 }
 
